@@ -1,11 +1,16 @@
 #!/bin/bash
-e="\x1b[";c=$e"39;49;00m";y=$e"93;01m";cy=$e"96;01m";r=$e"1;91m";g=$e"92;01m";
+e="\x1b[";
+c=$e"39;49;00m";
+y=$e"93;01m";
+cy=$e"96;01m";
+r=$e"1;91m";
+g=$e"92;01m";
 ##########################################################
 #                                                        #
 #           Carliv Image Kitchen for Android             #
 #     boot+recovery images copyright-2016 carliv@xda     #
 #    including support for MTK powered phones images     #
-#                                                        #
+#                                  modified by andrwgldmn#
 ##########################################################
 abort() { cd "$PWD"; echo " "; echo -e "$cy >>$c$r Exit script$c\n"; }
 ###########################################################
@@ -24,68 +29,68 @@ echo -e "
 *  boot+recovery images copyright-2016$cy carliv@xda$c  *
 *  including support for MTK powered phones images *
 *                $g LINUX x64 version$c                *
-*             The repacking images script          *
 *                                                  *
-**************************************************** 
+*                           $r modified by andrwgldmn$c*
+****************************************************
 ";
 ###########################################################
 if [ ! "$1" ]; 
 	then
-	echo -e "$r No folder selected. ERROR!$c";
+	echo -e "$r Папка не выбрана. Ошибка!$c";
 	abort;
 	exit 1;
 fi;
 ###########################################################
 imgfolder=$(basename "$1");
-echo -e "Processing the$y $imgfolder$c folder.";
+echo -e "Обработка $y $imgfolder$c";
 echo " ";
 cd "$imgfolder";
 ###########################################################
-echo "Repacking the image....";
+echo "Перепаковка....";
 echo " ";
 getfile=$(find . -name "*.img-kernel");
 myname="${getfile%.*}";
 kernel="$myname".img-kernel;
 if [[ -z "$kernel" ]];
 	then
-	echo -e "$r The$c$y kernel$c$r file is missing. Check your folder!. ERROR!$c";
+	echo -e "$c$y kernel$c$r утерян. Проверьте папку!. Ошибка!$c";
 	abort;
 	exit 1;
 fi;
-echo -e "The kernel is:$y $kernel$c";
+echo -e "kernel:$y $kernel$c";
 echo " ";
-echo -e "Getting the$y ramdisk$c compression....";
+echo -e "Сжимаем $y ramdisk$c....";
 echo " ";
 if [ ! -d "ramdisk" ];
 	then
-	echo -e "$r The$c$y ramdisk$c$r folder is missing. Check your folder!. ERROR!$c";
+	echo -e "$rПапка $c$y ramdisk$c$r утеряна. Проверьте папку!. Ошибка!$c";
 	abort;
 	exit 1;
 fi;
 compress=$(cat "$myname".img-ramdisk-compress);
-echo -e "Compression used:$y $compress$c";
+echo -e "Сжатие:$y $compress$c";
 echo " ";
 ###########################################################
 if [ "$compress" == "gz" ];
 	then
 	$mkbootfs ramdisk | $minigzip -c -9 > "$myname".img-ramdisk.gz;
 	ramdisk="$myname".img-ramdisk.gz;
-	echo -e "The ramdisk is:$y $ramdisk$c";
+	echo -e "ramdisk:$y $ramdisk$c";
 	if [ ! $? -eq "0" ]; 
 	then
-	  echo -e "$r The$c$y ramdisk$c$r repacking process failed. Check on screen printed errors and find a solution. ERROR!$c";
+	  echo -e "$r Перепаковка $c$y ramdisk$c$r провалена. Проверьте ошибки на экране и найдите решение. Ошибка!$c";
 	  abort;
 	  exit 1;
 	fi;
 fi;
 if [ "$compress" == "lzma" ];
 	then
-	$mkbootfs ramdisk | xz --format=lzma -1zv > "$myname".img-ramdisk.lzma;
+	$mkbootfs ramdisk | xz --format=lzma -9zv > "$myname".img-ramdisk.lzma;
 	ramdisk="$myname".img-ramdisk.lzma;
-	echo -e "The ramdisk is:$y $ramdisk$c";
+	echo -e "ramdisk:$y $ramdisk$c";
 	if [ ! $? -eq "0" ]; 
 	then
-	  echo -e "$r The$c$y ramdisk$c$r repacking process failed. Check on screen printed errors and find a solution. ERROR!$c";
+	  echo -e "$r Перепаковка $c$y ramdisk$c$r провалена. Проверьте ошибки на экране и найдите решение. Ошибка!$c";
 	  abort;
 	  exit 1;
 	fi;
@@ -94,10 +99,10 @@ if [ "$compress" == "xz" ];
 	then
 	$mkbootfs ramdisk | xz -1zv -Ccrc32 > "$myname".img-ramdisk.xz;
 	ramdisk="$myname".img-ramdisk.xz;
-	echo -e "The ramdisk is:$y $ramdisk$c";
+	echo -e "ramdisk:$y $ramdisk$c";
 	if [ ! $? -eq "0" ]; 
 	then
-	  echo -e "$r The$c$y ramdisk$c$r repacking process failed. Check on screen printed errors and find a solution. ERROR!$c";
+	  echo -e "$r Перепаковка $c$y ramdisk$c$r провалена. Проверьте ошибки на экране и найдите решение. Ошибка!$c";
 	  abort;
 	  exit 1;
 	fi;
@@ -106,10 +111,10 @@ if [ "$compress" == "bz2" ];
 	then
 	$mkbootfs ramdisk | bzip2 -v > "$myname".img-ramdisk.bz2;
 	ramdisk="$myname".img-ramdisk.bz2;
-	echo "The ramdisk is: $ramdisk";
+	echo -e "ramdisk:$y $ramdisk$c";
 	if [ ! $? -eq "0" ]; 
 	then
-	  echo -e "$r The$c$y ramdisk$c$r repacking process failed. Check on screen printed errors and find a solution. ERROR!$c";
+	  echo -e "$r Перепаковка $c$y ramdisk$c$r провалена. Проверьте ошибки на экране и найдите решение. Ошибка!$c";
 	  abort;
 	  exit 1;
 	fi;
@@ -118,22 +123,22 @@ if [ "$compress" == "lzo" ];
 	then
 	$mkbootfs ramdisk | lzop -v > "$myname".img-ramdisk.lzo;
 	ramdisk="$myname".img-ramdisk.lzo;
-	echo "The ramdisk is: $ramdisk";
+	echo -e "ramdisk:$y $ramdisk$c";
 	if [ ! $? -eq "0" ]; 
 	then
-	  echo -e "$r The$c$y ramdisk$c$r repacking process failed. Check on screen printed errors and find a solution. ERROR!$c";
+	  echo -e "$r Перепаковка $c$y ramdisk$c$r провалена. Проверьте ошибки на экране и найдите решение. Ошибка!$c";
 	  abort;
 	  exit 1;
 	fi;
 fi;
 if [ "$compress" == "lz4" ];
 	then
-	$mkbootfs ramdisk | lz4 -l stdin stdout > "$myname".img-ramdisk.lz4;
+	$mkbootfs ramdisk | lz4c -l -hc stdin stdout > "$myname".img-ramdisk.lz4;
 	ramdisk="$myname".img-ramdisk.lz4;
-	echo "The ramdisk is: $ramdisk";
+	echo -e "ramdisk:$y $ramdisk$c";
 	if [ ! $? -eq "0" ]; 
 	then
-	  echo -e "$r The$c$y ramdisk$c$r repacking process failed. Check on screen printed errors and find a solution. ERROR!$c";
+	  echo -e "$r Перепаковка $c$y ramdisk$c$r провалена. Проверьте ошибки на экране и найдите решение. Ошибка!$c";
 	  abort;
 	  exit 1;
 	fi;
@@ -141,7 +146,7 @@ fi;
 echo " ";
 ###########################################################
 echo " ";
-echo "Getting the image repacking arguments....";
+echo "Получение параметров:";
 echo " ";
 ######################### BOARD ###########################
 if [[ -f "$myname".img-board ]];
@@ -217,7 +222,7 @@ fi;
 stamp=$(date +"%Y%m%d-%H%M");
 newimage="$imgfolder"_"$stamp".img;
 echo " ";
-echo "Executing the repacking command...."
+echo "Перепаковка...."
 echo " ";
 if [[ -f "$myname".img-mtk ]];
 	then
@@ -240,5 +245,5 @@ rm -f "$compramdisk";
 cd ../;
 echo " ";
 ###########################################################
-echo -e "Done! Your new image is packed as$y $newimage$c in$g [output]$c folder.";
+echo -e "Готово! Ваш новый образ перепакован как $y $newimage$c в $g [output]$c.";
 echo " ";

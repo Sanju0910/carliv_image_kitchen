@@ -1,11 +1,16 @@
 #!/bin/bash
-e="\x1b[";c=$e"39;49;00m";y=$e"93;01m";cy=$e"96;01m";r=$e"1;91m";g=$e"92;01m";
+e="\x1b[";
+c=$e"39;49;00m";
+y=$e"93;01m";
+cy=$e"96;01m";
+r=$e"1;91m";
+g=$e"92;01m";
 ##########################################################
 #                                                        #
 #           Carliv Image Kitchen for Android             #
 #     boot+recovery images copyright-2016 carliv@xda     #
 #    including support for MTK powered phones images     #
-#                                                        #
+#                                  modified by andrwgldmn#
 ##########################################################
 abort() { cd "$PWD"; echo " "; echo -e "$cy >>$c$r Exit script$c\n"; }
 ###########################################################
@@ -22,20 +27,20 @@ echo -e "
 *  boot+recovery images copyright-2016$cy carliv@xda$c  *
 *  including support for MTK powered phones images *
 *                $g LINUX x64 version$c                *
-*             The unpacking images script          *
 *                                                  *
+*                           $r modified by andrwgldmn$c*
 ****************************************************
 ";
 ###########################################################
 if [ ! "$1" ]; 
 	then
-	echo -e "$r No image file selected. ERROR!$c";
+	echo -e "$r Файл не выбран. Ошибка!$c";
 	abort;
 	exit 1;
 fi;
 if [ ! "$2" ]; 
 	then
-	echo -e "$r No folder specified for unpack. ERROR!$c";
+	echo -e "$r Нет папки для распаковки. Ошибка!$c";
 	abort;
 	exit 1;
 fi;
@@ -43,7 +48,7 @@ fi;
 file=$(basename "$1");
 origfile=$(basename "$2");
 filename="${origfile%.*}";
-echo -e "Your image is$y $origfile$c";
+echo -e "Ваш образ $y $origfile$c";
 ###########################################################
 echo " ";
 wimage="$file";
@@ -92,7 +97,7 @@ if [[ "$wimage" = "recovery.img" ]];
 fi;
 ###########################################################
 echo " ";
-echo -e "Create the$y $filename$c folder....";
+echo -e "Создание $y $filename$c....";
 echo " ";
 if [ -d "$filename" ];
 	then
@@ -103,11 +108,11 @@ chmod 777 "$filename";
 ###########################################################
 if [[ -z "$wimage" ]];
 	then
-	echo -e "$r No image to process. ERROR!$c";
+	echo -e "$r Нет файла. Ошибка!$c";
 	abort;
 	exit 1;
 fi;
-echo -e "Unpacking the$y $file$c to$y $filename$c folder....";
+echo -e "Распаковка $y $file$c в $y $filename$c....";
 echo " ";
 if [ ! "$3" ];
 	then
@@ -150,7 +155,7 @@ fi;
 cd "$filename";
 comprfile=$(find . -name "*-ramdisk.*");
 compress="${comprfile##*.}";
-echo -e "Compression used:$y $compress ";
+echo -e "Сжатие:$y $compress ";
 filecomp="$wimage"-ramdisk-compress;
 if [ ! -f "$filecomp" ]
 	then 
@@ -159,7 +164,7 @@ fi;
 mkdir -p ramdisk;
 ###########################################################
 echo " ";
-echo -e "Unpacking the$y ramdisk$c....";
+echo -e "Распаковка$y ramdisk$c....";
 cd ramdisk;
 ###########################################################
 if [ "$compress" == "gz" ];
@@ -167,7 +172,7 @@ if [ "$compress" == "gz" ];
 	gzip -dcv "../$wimage-ramdisk.gz" | cpio -i ;
 	if [ ! $? -eq "0" ]; 
 	then
-	  echo -e "$r Your ramdisk archive is corrupt or is packed with an unsupported archive format. ERROR!$c";
+	  echo -e "$r Ваш рамдиск повреждён или запакован не поддерживаемым форматом. Ошибка!$c";
 	  abort;
 	  exit 1;
 	fi;
@@ -180,7 +185,7 @@ if [ "$compress" == "lzma" ];
 	xz -dcv "../$wimage-ramdisk.lzma" | cpio -i ;
 	if [ ! $? -eq "0" ]; 
 	then
-	  echo -e "$r Your ramdisk archive is corrupt or is packed with an unsupported archive format. ERROR!$c";
+	  echo -e "$r Ваш рамдиск повреждён или запакован не поддерживаемым форматом. Ошибка!$c";
 	  abort;
 	  exit 1;
 	fi;
@@ -193,7 +198,7 @@ if [ "$compress" == "xz" ];
 	xz -dcv "../$wimage-ramdisk.xz" | cpio -i ;
 	if [ ! $? -eq "0" ]; 
 	then
-	  echo -e "$r Your ramdisk archive is corrupt or is packed with an unsupported archive format. ERROR!$c";
+	  echo -e "$r Ваш рамдиск повреждён или запакован не поддерживаемым форматом. Ошибка!$c";
 	  abort;
 	  exit 1;
 	fi;
@@ -206,7 +211,7 @@ if [ "$compress" == "bz2" ];
 	bzip2 -dcv "../$wimage-ramdisk.bz2" | cpio -i ;
 	if [ ! $? -eq "0" ]; 
 	then
-	  echo -e "$r Your ramdisk archive is corrupt or is packed with an unsupported archive format. ERROR!$c";
+	  echo -e "$r Ваш рамдиск повреждён или запакован не поддерживаемым форматом. Ошибка!$c";
 	  abort;
 	  exit 1;
 	fi;
@@ -219,7 +224,7 @@ if [ "$compress" == "lzo" ];
 	lzop -dcv "../$wimage-ramdisk.lzo" | cpio -i ;
 	if [ ! $? -eq "0" ]; 
 	then
-	  echo -e "$r Your ramdisk archive is corrupt or is packed with an unsupported archive format. ERROR!$c";
+	  echo -e "$r Ваш рамдиск повреждён или запакован не поддерживаемым форматом. Ошибка!$c";
 	  abort;
 	  exit 1;
 	fi;
@@ -232,7 +237,7 @@ if [ "$compress" == "lz4" ];
 	lz4 -dv "../$wimage-ramdisk.lz4" stdout | cpio -i ;
 	if [ ! $? -eq "0" ]; 
 	then
-	  echo -e "$r Your ramdisk archive is corrupt or is packed with an unsupported archive format. ERROR!$c";
+	  echo -e "$r Ваш рамдиск повреждён или запакован не поддерживаемым форматом. Ошибка!$c";
 	  abort;
 	  exit 1;
 	fi;
@@ -242,11 +247,11 @@ if [ "$compress" == "lz4" ];
 fi;
 if [ "$compress" == "unknown" ];
 	then
-	  echo -e "$r Your image ramdisk is packed with an unsupported archive format. Please inform the author of this tool about the error and provide the image for helping him to find a solution. Exit the script.$c";
+	  echo -e "$r Ваш рамдиск повреждён или запакован не поддерживаемым форматом. Проинформируйте автора для поиска решения этой проблемы.$c";
 	  abort;
 	  exit 1;
 fi;
 echo " ";
 ###########################################################
-echo -e "Done! Your image is unpacked in$y $filename$c folder.";
+echo -e "Готово! Ваш образ перепакован в $y $filename$c.";
 echo " ";

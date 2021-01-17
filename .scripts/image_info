@@ -1,11 +1,16 @@
 #!/bin/bash
-e="\x1b[";c=$e"39;49;00m";y=$e"93;01m";cy=$e"96;01m";r=$e"1;91m";g=$e"92;01m";
+e="\x1b[";
+c=$e"39;49;00m";
+y=$e"93;01m";
+cy=$e"96;01m";
+r=$e"1;91m";
+g=$e"92;01m";
 ##########################################################
 #                                                        #
 #           Carliv Image Kitchen for Android             #
 #     boot+recovery images copyright-2016 carliv@xda     #
 #    including support for MTK powered phones images     #
-#                                                        #
+#                            modified by andrwgldmn      #
 ##########################################################
 abort() { cd "$PWD"; echo " "; echo -e "$cy >>$c$r Exit script$c\n"; }
 ###########################################################
@@ -22,24 +27,24 @@ echo -e "
 *  boot+recovery images copyright-2016$cy carliv@xda$c  *
 *  including support for MTK powered phones images *
 *                $g LINUX x64 version$c                *
-*           Printing the image info script         *
 *                                                  *
-**************************************************** 
+*                           $r modified by andrwgldmn$c*
+****************************************************
 ";     
 ###########################################################
 if [ ! "$1" ]; 
   then
-  echo -e "$r No image file selected. ERROR!$c";
+  echo -e "$r Файл не выбран. Ошибка!$c";
   abort;
   exit 1;
 fi;
 ###########################################################
 file=$(basename "$1");
-echo "Your image is: $file";
+echo "Ваш файл: $file";
 echo " ";
 ###########################################################
-echo -e "Display the informations for $y $file$c";
+echo -e "Показать информацию для $y $file$c";
 echo " ";
 $imageinfo "$file";
-echo "Done!";
+echo "Готово!";
 echo " ";
