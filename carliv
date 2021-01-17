@@ -1,11 +1,17 @@
 #!/bin/bash
-e="\x1b[";c=$e"39;49;00m";y=$e"93;01m";cy=$e"96;01m";r=$e"1;91m";g=$e"92;01m";m=$e"95;01m";
+e="\x1b[";
+c=$e"39;49;00m";
+y=$e"93;01m";
+cy=$e"96;01m";
+r=$e"1;91m";
+g=$e"92;01m";
+m=$e"95;01m";
 ##########################################################
 #                                                        #
 #           Carliv Image Kitchen for Android             #
 #     boot+recovery images copyright-2016 carliv@xda     #
 #    including support for MTK powered phones images     #
-#                                                        #
+#                                  modified by andrwgldmn#
 ##########################################################
 bin="$PWD/.bin";
 working="$PWD/.working";
@@ -16,33 +22,33 @@ cd "$PWD";
 
 pause()
 {
-read -s -n 1 -p "Press any key to continue...";
+read -s -n 1 -p "Нажмите любую клавишу чтобы продолжить...";
 }
 
 wrong()
 {
-echo -e "$y You typed $env - invalid option! Please try again$c";
+echo -e "$env - $y Неверная опция! Пожалуйста, попробуйте снова $c";
 pause;
 main;
 }
 
 wrongbs()
 {
-echo -e "$y You typed $benv - invalid option! Please try again$c";
+echo -e "$benv - $y Неверная опция! Пожалуйста, попробуйте снова $c";
 pause;
 boot;
 }
 
 wrongimg()
 {
-echo -e "$y You typed $imgenv - invalid option! Please try again$c";
+echo -e "$imgenv - $y Неверная опция! Пожалуйста, попробуйте снова $c";
 pause;
 imgmenu;
 }
 
 wrongrs()
 {
-echo -e "$y You typed $renv - invalid option! Please try again$c";
+echo -e "$renv - - $y Неверная опция! Пожалуйста, попробуйте снова $c";
 pause;
 recovery;
 }
@@ -78,7 +84,7 @@ if [ -d "$wfolder" ];
 	then
 	"$scripts"/repack_img "$wfolder";
 	else
-	echo -e "The folder for repack $g $wfolder$c doesn't exists. Are you sure you didn't delete it?";
+	echo -e "Папка для перепаковки $g $wfolder$c не существует!. Вы уверены, что Вы её не удалили?";
 fi;
 pause;
 imgmenu;
@@ -86,9 +92,9 @@ imgmenu;
 
 clean_all()
 {
-find . -maxdepth 1 -type f ! -name "image_info" ! -name "repack_img" ! -name "carliv" ! -name "unpack_img" ! -name "Instructions.txt" ! -name "*.img" ! -name "." ! -name ".*" ! -name "logo.png" -exec rm -f {} \; > /dev/null 2>&1;
+find . -maxdepth 1 -type f ! -name "image_info" ! -name "repack_img" ! -name "carliv" ! -name "unpack_img" ! -name "Instructions.txt" ! -name "*.img" ! -name "." ! -name ".*" ! -exec rm -f {} \; > /dev/null 2>&1;
 find . -maxdepth 1 -type d ! -name ".bin" ! -name "." ! -name ".*" ! -name "boot-resources" ! -name "recovery-resources" ! -name "output" ! -name ".working" ! -name ".scripts" -exec rm -rf {} \; > /dev/null 2>&1;
-echo "$y Done! Your working directory is clean now.$c";
+echo "$y Готово! Ваша рабочая папка чиста.$c";
 sleep 2;
 main;	
 }
@@ -99,7 +105,7 @@ cd output;
 find . -maxdepth 1 -type f -exec rm -f {} \; > /dev/null 2>&1;
 find . -maxdepth 1 -type d -exec rm -rf {} \; > /dev/null 2>&1;
 cd ../;
-echo "$y Done! Your output directory is clean now.$c";
+echo "$y Готово! Папка 'output' чиста.$c";
 sleep 2;
 main;	
 }
@@ -123,9 +129,9 @@ echo -e "
 * boot+recovery images copyright(c)2016$cy carliv@xda$c *
 *  including support for$y MTK powered$c phones images *
 *                $g LINUX x64 version$c                *
+*                                                  *
+*                           $r modified by andrwgldmn$c*
 ****************************************************
-*               $cy BOOT images$c section               *
-**************************************************** 
 ";     
 ###########################################################
 echo " ";
@@ -135,7 +141,7 @@ grep_boot="$(echo $grep_boot1 | sed -e 's/\.\///g' | sort -f)";
 cd ../;
 if [ "$grep_boot" == "" ];
 then
-  printf %s "There is no image in your [boot-resources] folder. Place some in there and then press [B] to start again or [Q] to go to main menu, then press ENTER!"
+  printf %s "В [boot-resources] нет ничего. Переместите туда что-либо и затем нажмите [B] чтобы начать сначала или [Q] чтобы выйти в главное меню, затем нажмите ENTER!"
   read bchoice;
   if [[ "$bchoice" = "B" || "$bchoice" = "b" ]]; 
 	then
@@ -144,24 +150,20 @@ then
 	then
 	main;
   else
-	echo "$bchoice is not a valid option"; pause; boot;
+	echo "$bchoice неверная опция"; pause; boot;
   fi;
 fi;
 count=0;
-echo "---------------------------------------------------";
-echo " 00. - Refresh                                    ";
-echo "---------------------------------------------------";
-echo "  0. - Go Back to main menu                        ";
-echo "---------------------------------------------------";
+echo "  00. - Обновить                                    ";
+echo "  0. - Выйти в главное меню                        ";
 for filename in $grep_boot 
  do
  count=$(($count+1));
  filename="$(echo $filename | sed 's/ftemps/ /g')";
  file_array[$count]="$filename";
   echo "  $count. - $filename";
-  echo "---------------------------------------------------";
 done
-printf %s "Type the file number, then press ENTER: ";
+printf %s "Введите номер файла, затем нажмите ENTER: ";
 read benv;
 if [ "$benv" == "00" ];
     then
@@ -202,8 +204,8 @@ echo -e "
 * boot+recovery images copyright(c)2016$cy carliv@xda$c *
 *  including support for$y MTK powered$c phones images *
 *                $g LINUX x64 version$c                *
-****************************************************
-*             $y RECOVERY images$c section             *
+*                                                  *
+*                           $r modified by andrwgldmn$c*
 **************************************************** 
 ";     
 ###########################################################
@@ -214,7 +216,7 @@ grep_rec="$(echo $grep_rec1 | sed -e 's/\.\///g' | sort -f)";
 cd ../;
 if [ "$grep_rec" == "" ];
 then
-  printf %s "There is no image in your [recovery-resources] folder. Place some in there and then press [R] to start again or [Q] to go to main menu, then press ENTER!"
+  printf %s "В [recovery-resources] нет ничего. Переместите туда что-либо и затем нажмите [R] чтобы начать сначала или [Q] чтобы выйти в главное меню, затем нажмите ENTER!"
   read rchoice;
   if [[ "$rchoice" = "R" || "$rchoice" = "r" ]]; 
 	then
@@ -223,24 +225,20 @@ then
 	then
 	main;
   else
-	echo "$rchoice is not a valid option"; pause; recovery;
+	echo "$rchoice неверная опция"; pause; recovery;
   fi;
 fi;
 count=0;
-echo "---------------------------------------------------";
-echo " 00. - Refresh                                    ";
-echo "---------------------------------------------------";
-echo "  0. - Go Back to main menu                        ";
-echo "---------------------------------------------------";
+echo "  00. - Обновить                                    ";
+echo "  0. - Выйти в главное меню                        ";
 for filename in $grep_rec 
  do
  count=$(($count+1));
  filename="$(echo $filename | sed 's/ftemps/ /g')";
  file_array[$count]="$filename";
   echo "  $count. - $filename";
-  echo "---------------------------------------------------";
 done
-printf %s "Type the file number, then press ENTER: ";
+printf %s "Введите номер файла, затем нажмите ENTER: ";
 read renv;
 if [ "$renv" == "00" ];
     then
@@ -281,13 +279,13 @@ echo -e "
 * boot+recovery images copyright(c)2016$cy carliv@xda$c *
 *  including support for$y MTK powered$c phones images *
 *                $g LINUX x64 version$c                *
+*                                                  *
+*                           $r modified by andrwgldmn$c*
 ****************************************************
-*              $cy IMG scripts$c section                *
-**************************************************** 
 "; 
 echo " ";
 echo " ";
-echo -e "Your selected image is$g $workfile$c"; 
+echo -e "Ваш файл $g $workfile$c"; 
 if [[ "$workfile" == *boot* || "$workfile" == *recovery* ]];
 	then
 	  wfolder="${workfile%.*}";
@@ -302,23 +300,20 @@ fi;
 echo " ";
 if [ -d "$wfolder" ]; 
 	then
-	echo -e "The folder for repack will be$g $wfolder$c";
-	echo "Make sure that the folder exists and you didn't delete it, because if you did, it will display an error message.";
+	echo -e "Папка для перепаковки $g $wfolder$c";
+	echo "Удостоверьтесь в том, что папка существует и что Вы её не удалили, ибо будет ошибка.";
 	echo " ";	
 fi;
 ###########################################################
 echo " ";
-echo "][*************************][*************************][";
-echo -e "][ $cy 1. Unpack image$c        ][ $y B. Other boot image$c    ][";
-echo "][*************************][*************************][";
-echo -e "][ $cy 2. Repack image$c        ][ $y R. Other recovery image$c][";
-echo "][*************************][*************************][";
-echo -e "][               $m I. Display image info$c               ][";
-echo "][*************************][*************************][";
-echo "][                 Q. Back to Main menu               ][";
-echo "][*************************][*************************][";
+echo -e "$cy 1. Разобрать$c";
+echo -e "$cy 2. Собрать$c";
+echo -e "$y B. Другое ядро$c";
+echo -e "$y R. Другое recovery $c";
+echo -e "$m I. Показать информацию$c";
+echo -e "$r Q. В главное меню$c";
 echo " ";
-printf %s "Type your option [1,2,B,R,I,Q] then press ENTER: ";
+printf %s "Сделайте Ваш выбор [1,2,B,R,I,Q] затем нажмите ENTER: ";
 read imgenv;
 case $imgenv in
  1) img_unpack;;
@@ -342,27 +337,21 @@ echo -e "
 *  including support for$y MTK powered$c phones images *
 *                $g LINUX x64 version$c                *
 *                                                  *
+*                           $r modified by andrwgldmn$c*
 **************************************************** 
 ";     
 ###########################################################
 echo " ";
-echo " Choose what kind of image you need to work on.";
+echo " Выберите с чем будете работать.";
 echo " ";
-echo "][************************][";
-echo -e "][$cy B.   BOOT$c              ][";
-echo "][************************][";
-echo -e "][$y R.   RECOVERY$c          ][";
-echo "][************************][";
-echo -e "][$g C.   CLEAR FOLDER$c      ][";
-echo "][************************][";
-echo -e "][$m O.   CLEAR OUTPUT$c      ][";
-echo "][************************][";
-echo "][ P.   SEE INSTRUCTIONS  ][";
-echo "][************************][";
-echo -e "][$r E.   EXIT$c              ][";
-echo "][************************][";
+echo -e "$cy  B.   Ядро$c";
+echo -e "$y  R.   Recovery$c";
+echo -e "$g  C.   Очистить папку$c";
+echo -e "$m  O.   Очистить 'output'$c";
+echo -e "$y  P.   Инструкция";
+echo -e "$r  E.   Выход$c";
 echo " ";
-printf %s "Type your option [B,R,C,O,P,E] then press ENTER: ";
+printf %s "Сделайте Ваш выбор [B,R,C,O,P,E] затем нажмите ENTER: ";
 read env;
 case $env in
  b|B) boot;;
