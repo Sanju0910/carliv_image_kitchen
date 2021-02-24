@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/local/bin/bash
 e="\x1b[";
 c=$e"39;49;00m";
 y=$e"93;01m";
@@ -73,7 +73,7 @@ echo " ";
 ###########################################################
 if [ "$compress" == "gz" ];
 	then
-	$mkbootfs ramdisk | $minigzip -c -9 > "$myname".img-ramdisk.gz;
+	$mkbootfs ramdisk | $minigzip -9 > "$myname".img-ramdisk.gz;
 	ramdisk="$myname".img-ramdisk.gz;
 	echo -e "ramdisk:$y $ramdisk$c";
 	if [ ! $? -eq "0" ]; 

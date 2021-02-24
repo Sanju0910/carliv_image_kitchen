@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/local/bin/bash
 e="\x1b[";
 c=$e"39;49;00m";
 y=$e"93;01m";
