@@ -11,7 +11,8 @@ m=$e"95;01m";
 #           Carliv Image Kitchen for Android             #
 #     boot+recovery images copyright-2016 carliv@xda     #
 #    including support for MTK powered phones images     #
-#                                  modified by andrwgldmn#
+#                 FreeBSD x64 version                    #
+#                                   modified by alexax66 #
 ##########################################################
 bin="$PWD/.bin";
 working="$PWD/.working";
@@ -128,9 +129,9 @@ echo -e "
 *     $cy Carliv Image Kitchen for Android$c v1.3       *
 * boot+recovery images copyright(c)2016$cy carliv@xda$c *
 *  including support for$y MTK powered$c phones images *
-*                $g LINUX x64 version$c                *
+*                $g FreeBSD x64 version$c              *
 *                                                  *
-*                           $r modified by andrwgldmn$c*
+*                            $r modified by alexax66$c *
 ****************************************************
 ";     
 ###########################################################
@@ -203,9 +204,9 @@ echo -e "
 *     $cy Carliv Image Kitchen for Android$c v1.3       *
 * boot+recovery images copyright(c)2016$cy carliv@xda$c *
 *  including support for$y MTK powered$c phones images *
-*                $g LINUX x64 version$c                *
+*                $g FreeBSD x64 version$c              *
 *                                                  *
-*                           $r modified by andrwgldmn$c*
+*                            $r modified by alexax66$c *
 **************************************************** 
 ";     
 ###########################################################
@@ -278,9 +279,9 @@ echo -e "
 *     $cy Carliv Image Kitchen for Android$c v1.3       *
 * boot+recovery images copyright(c)2016$cy carliv@xda$c *
 *  including support for$y MTK powered$c phones images *
-*                $g LINUX x64 version$c                *
+*                $g FreeBSD x64 version$c              *
 *                                                  *
-*                           $r modified by andrwgldmn$c*
+*                            $r modified by alexax66$c *
 ****************************************************
 "; 
 echo " ";
@@ -335,9 +336,9 @@ echo -e "
 *     $cy Carliv Image Kitchen for Android$c v1.3       *
 * boot+recovery images copyright(c)2016$cy carliv@xda$c *
 *  including support for$y MTK powered$c phones images *
-*                $g LINUX x64 version$c                *
+*                $g FreeBSD x64 version$c              *
 *                                                  *
-*                           $r modified by andrwgldmn$c*
+*                            $r modified by alexax66$c *
 **************************************************** 
 ";     
 ###########################################################
