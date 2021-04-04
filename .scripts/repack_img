@@ -73,7 +73,8 @@ echo " ";
 ###########################################################
 if [ "$compress" == "gz" ];
 	then
-	$mkbootfs ramdisk | $minigzip -9 > "$myname".img-ramdisk.gz;
+	$mkbootfs ramdisk > "$myname".img-ramdisk;
+	$minigzip -9 "$myname".img-ramdisk;
 	ramdisk="$myname".img-ramdisk.gz;
 	echo -e "ramdisk:$y $ramdisk$c";
 	if [ ! $? -eq "0" ]; 
